@@ -49,7 +49,7 @@ Clone the repository
 
 .. code-block:: console
 
-	git clone https://github.com/space-ros/space-ros
+    git clone https://github.com/space-ros/space-ros
 
 The Earthfile configuration in this directory facilitates builds of Space ROS from source code. The generated container image is based on Ubuntu 22.04 (Jammy)
 
@@ -60,8 +60,8 @@ To build the image, run:
 
 .. code-block:: console
 
-	cd space-ros
-	./build.sh
+    cd space-ros
+    ./build.sh
 
 The build process will take about 20 or 30 minutes, depending on the host computer.
 
@@ -69,7 +69,7 @@ The build will use the local `ros2.repos <https://github.com/space-ros/space-ros
 
 .. code-block:: console
 
-	earthly build +repos-file
+    earthly build +repos-file
 
 Running the Space ROS Docker Image in a Container
 -------------------------------------------------
@@ -78,24 +78,24 @@ After building the image, you can see the newly-built image by running:
 
 .. code-block:: console
 
-	docker image list
+    docker image list
 
 The output will look something like this:
 
 .. code-block:: console
 
-	$ docker image list
-	REPOSITORY              TAG                        IMAGE ID       CREATED        SIZE
-	osrf/space-ros        latest                     109ad8fb7460   4 days ago      2.45GB
-	ubuntu                jammy                      a8780b506fa4   5 days ago      77.8MB
+    $ docker image list
+    REPOSITORY              TAG                        IMAGE ID       CREATED        SIZE
+    osrf/space-ros        latest                     109ad8fb7460   4 days ago      2.45GB
+    ubuntu                jammy                      a8780b506fa4   5 days ago      77.8MB
 
 The new image is named osrf/space-ros:latest.
 
 There is a run.sh script provided for convenience that will run the spaceros image in a container.
 
 .. code-block:: console
-	
-	./run.sh
+
+    ./run.sh
 
 Upon startup, the container automatically runs the entrypoint.sh script, which sources the Space ROS environment file (setup.bash).
 
@@ -103,47 +103,47 @@ You'll now be running inside the container and should see a prompt similar to th
 
 .. code-block:: console
 
-	spaceros-user@d10d85c68f0e:~/$
+    spaceros-user@d10d85c68f0e:~/$
 
 Space ROS is installed to the ``${SPACEROS_DIR}`` in ``/opt/spaceors``, if required, the ROS environment file can be manually sourced with:
 
 .. code-block:: console
 
-	source "${SPACEROS_DIR}"/install/setup.bash
+    source "${SPACEROS_DIR}"/install/setup.bash
 
 At this point, you can run the ``ros2`` command line utility to make sure everything is working OK:
 
 .. code-block:: console
 
-	spaceros-user@d10d85c68f0e:~/$ ros2
-	usage: ros2 [-h] [--use-python-default-buffering] Call `ros2 <command> -h` for more detailed usage. ...
+    spaceros-user@d10d85c68f0e:~/$ ros2
+    usage: ros2 [-h] [--use-python-default-buffering] Call `ros2 <command> -h` for more detailed usage. ...
 
-	ros2 is an extensible command-line tool for ROS 2.
+    ros2 is an extensible command-line tool for ROS 2.
 
-	optional arguments:
-	  -h, --help            show this help message and exit
-	  --use-python-default-buffering
-	                        Do not force line buffering in stdout and instead use the python default buffering, which might be affected by PYTHONUNBUFFERED/-u and depends on whatever stdout is interactive or not
+    optional arguments:
+      -h, --help            show this help message and exit
+      --use-python-default-buffering
+                            Do not force line buffering in stdout and instead use the python default buffering, which might be affected by PYTHONUNBUFFERED/-u and depends on whatever stdout is interactive or not
 
-	Commands:
-	  action     Various action related sub-commands
-	  component  Various component related sub-commands
-	  daemon     Various daemon related sub-commands
-	  doctor     Check ROS setup and other potential issues
-	  interface  Show information about ROS interfaces
-	  launch     Run a launch file
-	  lifecycle  Various lifecycle related sub-commands
-	  multicast  Various multicast related sub-commands
-	  node       Various node related sub-commands
-	  param      Various param related sub-commands
-	  pkg        Various package related sub-commands
-	  run        Run a package specific executable
-	  service    Various service related sub-commands
-	  topic      Various topic related sub-commands
-	  trace      Trace ROS nodes to get information on their execution
-	
-	  wtf        Use `wtf` as alias to `doctor`
-	  Call `ros2 <command> -h` for more detailed usage.
+    Commands:
+      action     Various action related sub-commands
+      component  Various component related sub-commands
+      daemon     Various daemon related sub-commands
+      doctor     Check ROS setup and other potential issues
+      interface  Show information about ROS interfaces
+      launch     Run a launch file
+      lifecycle  Various lifecycle related sub-commands
+      multicast  Various multicast related sub-commands
+      node       Various node related sub-commands
+      param      Various param related sub-commands
+      pkg        Various package related sub-commands
+      run        Run a package specific executable
+      service    Various service related sub-commands
+      topic      Various topic related sub-commands
+      trace      Trace ROS nodes to get information on their execution
+
+      wtf        Use `wtf` as alias to `doctor`
+      Call `ros2 <command> -h` for more detailed usage.
 
 
 Rebuilding Space ROS and running unit tests
@@ -154,17 +154,17 @@ Space ROS sources and intermediate build artifacts are not included in the docke
 A manifest of the exact sources used to produce the current image is saved as ``exact.repos`` in the ``/opt/spaceros directory``. To clone all sources from this manifest you can use the command sequence
 
 .. code-block:: console
-	
-	spaceros-user@d10d85c68f0e:~/$ cd /opt/spaceros
-	spaceros-user@d10d85c68f0e:/opt/spaceros$ mkdir src
-	spaceros-user@d10d85c68f0e:/opt/spaceros$ vcs import src < exact.repos
+
+    spaceros-user@d10d85c68f0e:~/$ cd /opt/spaceros
+    spaceros-user@d10d85c68f0e:/opt/spaceros$ mkdir src
+    spaceros-user@d10d85c68f0e:/opt/spaceros$ vcs import src < exact.repos
 
 From there you can run a new build and any additional tests.
 
 .. code-block:: console
 
-	spaceros-user@d10d85c68f0e:/opt/spaceros$ colcon build --cmake-args -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON --no-warn-unused-cli
-	spaceros-user@d10d85c68f0e:/opt/spaceros$ colcon test --ctest-args -LE "(ikos|xfail)" --pytest-args -m "not xfail"
+    spaceros-user@d10d85c68f0e:/opt/spaceros$ colcon build --cmake-args -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON --no-warn-unused-cli
+    spaceros-user@d10d85c68f0e:/opt/spaceros$ colcon test --ctest-args -LE "(ikos|xfail)" --pytest-args -m "not xfail"
 
 The tests include running the static analysis tools clang_tidy and cppcheck (which has the MISRA 2012 add-on enabled).
 
@@ -172,58 +172,58 @@ You can use colcon's ``--packages-select`` option to run a subset of packages. F
 
 .. code-block:: console
 
-	spaceros-user@d10d85c68f0e:/opt/spaceros$ colcon test --event-handlers console_direct+ --packages-select rcpputils
+    spaceros-user@d10d85c68f0e:/opt/spaceros$ colcon test --event-handlers console_direct+ --packages-select rcpputils
 
 Viewing Test Output
 -------------------
 
-The output from the tests are stored in XUnit XML files, named <tool-name>.xunit.xml. After running the unit tests, you can scan the build directory for the various *.xunit.xml files.
+The output from the tests are stored in XUnit XML files, named ``<tool-name>.xunit.xml``. After running the unit tests, you can scan the build directory for the various ``*.xunit.xml`` files.
 
 For example, a clang_tidy.xunit.xml file looks like this:
 
 .. code-block:: console
 
-	<xml version="1.0" encoding="UTF-8"?>
-	<testsuite
-	  name="rmw.clang_tidy"
-	  tests="21"
-	  errors="0"
-	  failures="0"
-	  time="1.248"
-	>
-	  <testcase
-	    name="/home/spaceros-user/spaceros/src/rmw/rmw/src/allocators.c"
-	    classname="rmw.clang_tidy"/>
-	  <testcase
-	    name="/home/spaceros-user/spaceros/src/rmw/rmw/src/convert_rcutils_ret_to_rmw_ret.c"
-	    classname="rmw.clang_tidy"/>
-	  <testcase
-	    name="/home/spaceros-user/spaceros/src/rmw/rmw/src/event.c"
-	    classname="rmw.clang_tidy"/>
-	  <testcase
-	    name="/home/spaceros-user/spaceros/src/rmw/rmw/src/init.c"
-	    classname="rmw.clang_tidy"/>
-	  <testcase
-	    name="/home/spaceros-user/spaceros/src/rmw/rmw/src/init_options.c"
-	    classname="rmw.clang_tidy"/>
-	  <testcase
-	    name="/home/spaceros-user/spaceros/src/rmw/rmw/src/message_sequence.c"
-	    classname="rmw.clang_tidy"/>
-	  <testcase
-	    name="/home/spaceros-user/spaceros/src/rmw/rmw/src/names_and_types.c"
-	    classname="rmw.clang_tidy"/>
-	  <testcase
-	    name="/home/spaceros-user/spaceros/src/rmw/rmw/src/network_flow_endpoint.c"
-	    classname="rmw.clang_tidy"/>
-	  <testcase
-	    name="/home/spaceros-user/spaceros/src/rmw/rmw/src/network_flow_endpoint_array.c"
-	    classname="rmw.clang_tidy"/>
-	  <testcase
-	    name="/home/spaceros-user/spaceros/src/rmw/rmw/src/publisher_options.c"
-	    classname="rmw.clang_tidy"/>
+    <xml version="1.0" encoding="UTF-8"?>
+    <testsuite
+      name="rmw.clang_tidy"
+      tests="21"
+      errors="0"
+      failures="0"
+      time="1.248"
+    >
+      <testcase
+        name="/home/spaceros-user/spaceros/src/rmw/rmw/src/allocators.c"
+        classname="rmw.clang_tidy"/>
+      <testcase
+        name="/home/spaceros-user/spaceros/src/rmw/rmw/src/convert_rcutils_ret_to_rmw_ret.c"
+        classname="rmw.clang_tidy"/>
+      <testcase
+        name="/home/spaceros-user/spaceros/src/rmw/rmw/src/event.c"
+        classname="rmw.clang_tidy"/>
+      <testcase
+        name="/home/spaceros-user/spaceros/src/rmw/rmw/src/init.c"
+        classname="rmw.clang_tidy"/>
+      <testcase
+        name="/home/spaceros-user/spaceros/src/rmw/rmw/src/init_options.c"
+        classname="rmw.clang_tidy"/>
+      <testcase
+        name="/home/spaceros-user/spaceros/src/rmw/rmw/src/message_sequence.c"
+        classname="rmw.clang_tidy"/>
+      <testcase
+        name="/home/spaceros-user/spaceros/src/rmw/rmw/src/names_and_types.c"
+        classname="rmw.clang_tidy"/>
+      <testcase
+        name="/home/spaceros-user/spaceros/src/rmw/rmw/src/network_flow_endpoint.c"
+        classname="rmw.clang_tidy"/>
+      <testcase
+        name="/home/spaceros-user/spaceros/src/rmw/rmw/src/network_flow_endpoint_array.c"
+        classname="rmw.clang_tidy"/>
+      <testcase
+        name="/home/spaceros-user/spaceros/src/rmw/rmw/src/publisher_options.c"
+        classname="rmw.clang_tidy"/>
 
-	<etc>
-	...
+    <etc>
+    ...
 
 Connecting Another Terminal to a Running Docker Container
 ---------------------------------------------------------
@@ -233,21 +233,21 @@ Sometimes it may be convenient to attach additional terminals to a running Docke
 With the Space ROS Docker container running, open a second host terminal and then run the following command to determine the container ID:
 
 .. code-block:: console
-	
-	docker container list
+
+    docker container list
 
 The output will look something like this:
 
 .. code-block:: console
 
-	CONTAINER ID   IMAGE                   COMMAND                  CREATED          STATUS          PORTS     NAMES
-	d10d85c68f0e   openrobotics/spaceros   "/entrypoint.sh …"   28 minutes ago   Up 28 minutes             inspiring_moser
+    CONTAINER ID   IMAGE                   COMMAND                  CREATED          STATUS          PORTS     NAMES
+    d10d85c68f0e   openrobotics/spaceros   "/entrypoint.sh …"   28 minutes ago   Up 28 minutes             inspiring_moser
 
 The container ID in this case, is d10d85c68f0e. So, run the following command in the host terminal:
 
 .. code-block:: console
 
-	docker exec -it d10d85c68f0e /bin/bash --init-file "install/setup.bash"
+    docker exec -it d10d85c68f0e /bin/bash --init-file "install/setup.bash"
 
 You will then be at a prompt in the same running container.
 
@@ -260,7 +260,7 @@ IKOS uses special compiler and linker settings in order to instrument and analyz
 
 .. code-block:: console
 
-	spaceros-user@d10d85c68f0e:/opt/spaceros$ CC="ikos-scan-cc" CXX="ikos-scan-c++" LD="ikos-scan-cc" colcon build --build-base build_ikos --install-base install_ikos --cmake-args -DSECURITY=ON -DINSTALL_EXAMPLES=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON --no-warn-unused-cli
+    spaceros-user@d10d85c68f0e:/opt/spaceros$ CC="ikos-scan-cc" CXX="ikos-scan-c++" LD="ikos-scan-cc" colcon build --build-base build_ikos --install-base install_ikos --cmake-args -DSECURITY=ON -DINSTALL_EXAMPLES=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON --no-warn-unused-cli
 
 The previous command generates the instrumented binaries and the associated output in a separate directory from the normal Space ROS build; the command uses --build-base option to specify build_ikos as the build output directory instead of the default build directory.
 
@@ -268,7 +268,7 @@ To run an IKOS scan on a specific package, such as rcpputils in this case, use t
 
 .. code-block:: console
 
-	spaceros-user@d10d85c68f0e:/opt/spaceros$ CC="ikos-scan-cc" CXX="ikos-scan-c++" LD="ikos-scan-cc" colcon build --build-base build_ikos --install-base install_ikos --packages-select rcpputils --cmake-args -DSECURITY=ON -DINSTALL_EXAMPLES=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON --no-warn-unused-cli
+    spaceros-user@d10d85c68f0e:/opt/spaceros$ CC="ikos-scan-cc" CXX="ikos-scan-c++" LD="ikos-scan-cc" colcon build --build-base build_ikos --install-base install_ikos --packages-select rcpputils --cmake-args -DSECURITY=ON -DINSTALL_EXAMPLES=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON --no-warn-unused-cli
 
 Generating IKOS Results
 -----------------------
@@ -277,25 +277,25 @@ To generate JUnit XML/SARIF files for all of the binaries resulting from the bui
 
 .. code-block:: console
 
-	spaceros-user@d10d85c68f0e:/opt/spaceros$ colcon test --build-base build_ikos --install-base install_ikos --ctest-args -L "ikos"
+    spaceros-user@d10d85c68f0e:/opt/spaceros$ colcon test --build-base build_ikos --install-base install_ikos --ctest-args -L "ikos"
 
 To generate a JUnit XML file for a specific package only, you can add the --packages-select option, as follows:
 
 .. code-block:: console
 
-	spaceros-user@d10d85c68f0e:/opt/spaceros$ colcon test --build-base build_ikos --install-base install_ikos --ctest-args -L "ikos" --packages-select rcpputils
+    spaceros-user@d10d85c68f0e:/opt/spaceros$ colcon test --build-base build_ikos --install-base install_ikos --ctest-args -L "ikos" --packages-select rcpputils
 
 The ``colcon test`` command with the ``-L "ikos"`` flag runs IKOS report generation, which reads the IKOS database generated in the previous analysis step and generates a JUnit XML report file. After running ``colcon test``, you can view the JUnit XML files. For example, to view the JUnit XML file for IKOS scan of the rcpputils binaries you can use the following command:
 
 .. code-block:: console
 
-	spaceros-user@d10d85c68f0e:/opt/spaceros$ more build_ikos/rcpputils/test_results/rcpputils/ikos.xunit.xml
+    spaceros-user@d10d85c68f0e:/opt/spaceros$ more build_ikos/rcpputils/test_results/rcpputils/ikos.xunit.xml
 
 SARIF files are also available in the same path:
 
 .. code-block:: console
 
-	spaceros-user@d10d85c68f0e:/opt/spaceros$ more build_ikos/rcpputils/test_results/rcpputils/ikos.sarif
+    spaceros-user@d10d85c68f0e:/opt/spaceros$ more build_ikos/rcpputils/test_results/rcpputils/ikos.sarif
 
 Saving build artifacts locally
 ------------------------------
@@ -308,13 +308,13 @@ To invoke a task, use the following syntax:
 
 .. code-block:: console
 
-	earthly +TASK_NAME
+    earthly +TASK_NAME
 
 Example:
 
 .. code-block:: console
 
-	earthly +vcs-exact
+    earthly +vcs-exact
 
 Refer to the `Earthfile <https://github.com/space-ros/space-ros/blob/main/Earthfile>`_ for tasks that save artifacts locally on the host. Such tasks end with the ``SAVE ARTIFACT .. AS LOCAL`` syntax.
 

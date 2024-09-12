@@ -10,13 +10,13 @@ Move into your Space ROS workspace:
 
 .. code-block:: console
 
-	cd spaceros_ws
+    cd spaceros_ws
 
 Clone the docker repository:
 
 .. code-block:: console
 
-	git clone https://github.com/space-ros/docker
+    git clone https://github.com/space-ros/docker
 
 Building the MoveIt2 Image
 --------------------------
@@ -25,8 +25,8 @@ To build the docker image, run:
 
 .. code-block:: console
 
-	cd docker/moveit2
-	./build.sh
+    cd docker/moveit2
+    ./build.sh
 
 The build process will take about 30 minutes, depending on the host computer.
 
@@ -37,16 +37,16 @@ After building the image, you can see the newly-built image by running:
 
 .. code-block:: console
 
-	docker image list
+    docker image list
 
 The output will look something like this:
 
 .. code-block:: console
 
-	REPOSITORY              TAG                        IMAGE ID       CREATED        SIZE
-	openrobotics/moveit2    latest                     6edb2edc9643   10 hours ago   15.5GB
-	openrobotics/spaceros   latest                     629b13cf7b74   12 hours ago   7.8GB
-	nvidia/cudagl           11.4.1-devel-ubuntu20.04   336416dfcbba   1 week ago     5.35GB
+    REPOSITORY              TAG                        IMAGE ID       CREATED        SIZE
+    openrobotics/moveit2    latest                     6edb2edc9643   10 hours ago   15.5GB
+    openrobotics/spaceros   latest                     629b13cf7b74   12 hours ago   7.8GB
+    nvidia/cudagl           11.4.1-devel-ubuntu20.04   336416dfcbba   1 week ago     5.35GB
 
 The new image is named openrobotics/moveit2:latest.
 
@@ -54,13 +54,13 @@ There is a run.sh script provided for convenience that will run the spaceros ima
 
 .. code-block:: console
 
-	./run.sh
+    ./run.sh
 
 Upon startup, the container automatically runs the entrypoint.sh script, which sources the MoveIt2 and Space ROS environment files. You'll now be running inside the container and should see a prompt similar to this:
 
 .. code-block:: console
 
-	spaceros-user@8e73b41a4e16:~/moveit2#
+    spaceros-user@8e73b41a4e16:~/moveit2#
 
 Running MoveIt2 Tutorials
 -------------------------
@@ -69,7 +69,7 @@ Run the following command to launch the MoveIt2 tutorials demo launch file:
 
 .. code-block:: console
 
-	ros2 launch moveit2_tutorials demo.launch.py rviz_tutorial:=true
+    ros2 launch moveit2_tutorials demo.launch.py rviz_tutorial:=true
 
 You should see lots of console output and the rviz2 window appear:
 
@@ -84,7 +84,7 @@ To run the Move Group C++ Interface Demo, execute the following command:
 
 .. code-block:: console
 
-	ros2 launch moveit2_tutorials move_group.launch.py
+    ros2 launch moveit2_tutorials move_group.launch.py
 
 .. image:: ../images/move-group-demo.png
 
